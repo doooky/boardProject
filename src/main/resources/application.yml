@@ -5,25 +5,26 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://tdb.wssw.kr:3306/boardProject?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: wssoft
+    password: ws_soft_63
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: create # 스프링부트가 실행될 때마다 실행.SessionFactory가 시작될때 Drop, Create, Alter 종료될때 Drop
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    # hibernate:
+      # ddl-auto: create # 스프링부트가 실행될 때마다 실행.SessionFactory가 시작될때 Drop, Create, Alter 종료될때 Drop
     properties:
       hibernate: #콘솔창에서 쿼리문을 잘 보기 위한 설정
         format_sql: true
         show_sql: true
     # Spring boot 2.5.x 버전 이후 부터는 프로젝트 실행 시 data.sql로 데이터를 초기화 시키기 위해서는 spring.jpa.defer-datasource-initialization=true로 설정해주어야 한다.
-    defer-datasource-initialization: true
+    # defer-datasource-initialization: true
 
 logging:
   level:
-    me.chuckky: DEBUG
+    kdh: DEBUG
 
 jwt:
   header: Authorization

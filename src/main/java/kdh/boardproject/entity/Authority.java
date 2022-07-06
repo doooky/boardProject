@@ -1,10 +1,7 @@
 package kdh.boardproject.entity;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity // DB의 테이블과 1대1 매핑되는 객체.
 @Table(name = "authority")
@@ -16,7 +13,11 @@ import javax.persistence.Table;
 public class Authority {
 
     @Id
-    @Column(name = "authority_name", length = 50)
+    @Column(name = "idx")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idx;
+
+    @Column(name = "name", length = 50)
     private String authorityName;
 
 }

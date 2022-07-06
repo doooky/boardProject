@@ -17,29 +17,29 @@ public class User {
 
     @JsonIgnore
     @Id
-    @Column(name = "user_id")
+    @Column(name = "idx")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long idx;
 
-    @Column(name="username", length = 50, unique = true)
-    private String username;
+    @Column(name="id", length = 50, unique = true)
+    private String id;
 
     @JsonIgnore
-    @Column(name="password", length = 100)
-    private String password;
+    @Column(name="pw", length = 100)
+    private String pw;
 
-    @Column(name="nickname", length = 50)
-    private String nickname;
+    @Column(name="name", length = 50)
+    private String name;
 
     @JsonIgnore
     @Column(name="activated")
     private boolean activated;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+            joinColumns = {@JoinColumn(name = "user_idx", referencedColumnName = "idx")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_idx", referencedColumnName = "idx")})
     private Set<Authority> authorities;
 
 }
