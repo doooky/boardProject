@@ -13,10 +13,10 @@ class UserRepositoryTest {
     @Test
     public void save(){
         User user = new User();
-        user.setUsername("spring");
+        user.setId("spring");
 
         userRepository.save(user);
 
-        User result = userRepository.findById(user.getUserId()).get();
+        User result = userRepository.findById(user.getIdx()).get();
     }
 }

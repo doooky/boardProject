@@ -1,14 +1,9 @@
 spring:
-
-  h2:
-    console:
-      enabled: true
-
   datasource:
-    url: jdbc:mysql://tdb.wssw.kr:3306/boardProject?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    url: ENC(VER/Nq7bzt4U767+uSAaBxViSdgPB4LgFw0itS3P/5cvbzRH43AEY9WeS0SaeXIwdrtehST0MS+opMck+HAtCdd3au9XASGOC63ArVNHq+B3yxOdYIOxMojlQI5XjxpjEzKelnBqpygRuYE71QNOhw==)
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: wssoft
-    password: ws_soft_63
+    username: ENC(h1GnL83oDBt4N+/tYDbOwg==)
+    password: ENC(UntvDISjC8RO7upb8UJve3RGV94biTa2)
 
   jpa:
     database: mysql
@@ -30,3 +25,7 @@ jwt:
   header: Authorization
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
   token-validity-in-seconds: 86400
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
