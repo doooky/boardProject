@@ -23,6 +23,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtSecurityConfig jwtSecurityConfig;
 
+    private static final String[] SWAGGER_PERMIT_URL_ARRAY = {
+            /* swagger v2 */
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            /* swagger v3 */
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -35,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                   "/h2-console/**"
                         ,"/favicon.ico"
+                        ,"/swagger-ui.html"
                 );
     }
 
@@ -79,6 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/hello").permitAll() // 권한상관없이 접근하도록 허용한다.
                 .antMatchers("/api/authenticate").permitAll() // 권한상관없이 접근하도록 허용한다.
                 .antMatchers("/api/signup").permitAll() // 권한상관없이 접근하도록 허용한다.
+                .antMatchers(SWAGGER_PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().authenticated() // 나머지 요청들은 모두 인증되어야 한다.
 
                 .and()
