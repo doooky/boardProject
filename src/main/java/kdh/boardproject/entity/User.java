@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity // DB의 테이블과 1대1 매핑되는 객체.
-@Table(name = "user")
 @Getter
 @Setter
 @Builder
@@ -41,5 +42,19 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_idx", referencedColumnName = "idx")},
             inverseJoinColumns = {@JoinColumn(name = "authority_idx", referencedColumnName = "idx")})
     private Set<Authority> authorities;
+
+    @OneToMany(mappedBy = "user")
+    private List<Category> categoryList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Board> boardList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<BoardComment> boardCommentList = new ArrayList<>();
+
+    public void addCategory(Category category){
+        categoryList.add(category);
+        category.setUser(this);
+    }
 
 }

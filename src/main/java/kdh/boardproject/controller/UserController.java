@@ -19,12 +19,6 @@ import java.io.IOException;
 public class UserController {
     private final UserService userService;
 
-
-    @PostMapping("/test-redirect")
-    public void testRedirect(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/api/user");
-    }
-
     @PostMapping("/signup")
     public ResponseEntity<User> signup(
             @Valid @RequestBody UserDto userDto
