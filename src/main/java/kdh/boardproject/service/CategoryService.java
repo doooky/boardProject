@@ -6,6 +6,7 @@ import kdh.boardproject.dto.category.DeleteCategoryDto;
 import kdh.boardproject.dto.category.ResponseCategoryDto;
 import kdh.boardproject.entity.Category;
 import kdh.boardproject.entity.User;
+import kdh.boardproject.exception.CustomException;
 import kdh.boardproject.exception.DuplicateException;
 import kdh.boardproject.exception.NotFoundException;
 import kdh.boardproject.repository.CategoryRepository;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static kdh.boardproject.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +44,7 @@ public class CategoryService {
 
         Optional<User> user = userRepository.findOneByIdx(categoryDto.getUserIdx());
         if(user.isEmpty()){
-            throw new NotFoundException("존재하지 않는 회원입니다.");
+            throw new CustomException(MEMBER_NOT_FOUND);
         }
 
         Category category = Category.builder()
@@ -80,7 +83,7 @@ public class CategoryService {
     private Category checkEmptyCategory(Long idx){
         Optional<Category> category = categoryRepository.findOneByIdx(idx);
         if(category.isEmpty()){
-            throw new NotFoundException("존재하지 않는 카테고리입니다.");
+            throw new CustomException(CATEGORY_NOT_FOUND);
         }
         return category.get();
     }
@@ -88,7 +91,7 @@ public class CategoryService {
     private void checkDuplicateCategory(String categoryName){
         Optional<Category> category = categoryRepository.findOneByCategoryName(categoryName);
         if(!category.isEmpty()){
-            throw new DuplicateException("이미 존재하는 카테고리 입니다.");
+            throw new CustomException(DUPLICATE_RESOURCE);
         }
     }
 }

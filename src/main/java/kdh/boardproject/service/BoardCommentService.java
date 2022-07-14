@@ -6,6 +6,7 @@ import kdh.boardproject.dto.boardComment.UpdateBoardCommentDto;
 import kdh.boardproject.entity.Board;
 import kdh.boardproject.entity.BoardComment;
 import kdh.boardproject.entity.User;
+import kdh.boardproject.exception.CustomException;
 import kdh.boardproject.exception.NotFoundException;
 import kdh.boardproject.repository.BoardCommentRepository;
 import kdh.boardproject.repository.BoardRepository;
@@ -18,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static kdh.boardproject.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -36,12 +39,12 @@ public class BoardCommentService {
     public BoardComment createBoardComment(CreateBoardCommentDto dto) {
         Optional<Board> board = boardRepository.findOneByIdx(dto.getBoardIdx());
         if(board.isEmpty()){
-            throw new NotFoundException("존재하지 않는 게시물입니다.");
+            throw new CustomException(CATEGORY_NOT_FOUND);
         }
 
         Optional<User> user = userRepository.findOneByIdx(dto.getUserIdx());
         if(user.isEmpty()){
-            throw new NotFoundException("존재하지 않는 회원입니다.");
+            throw new CustomException(MEMBER_NOT_FOUND);
         }
 
         BoardComment boardComment = BoardComment.builder().
@@ -56,7 +59,7 @@ public class BoardCommentService {
     public BoardComment updateBoardComment(Long idx, UpdateBoardCommentDto dto) {
         Optional<BoardComment> boardComment = boardCommentRepository.findOneByIdx(idx);
         if(boardComment.isEmpty()){
-            throw new NotFoundException("존재하지 않는 댓글입니다.");
+            throw new CustomException(BOARD_COMMENT_NOT_FOUND);
         }
 
         boardComment.get().setContent(dto.getContent() != null ? dto.getContent() : boardComment.get().getContent());
@@ -67,7 +70,7 @@ public class BoardCommentService {
     public BoardComment deleteBoardComment(Long idx) {
         Optional<BoardComment> boardComment = boardCommentRepository.findOneByIdx(idx);
         if(boardComment.isEmpty()){
-            throw new NotFoundException("존재하지 않는 댓글입니다.");
+            throw new CustomException(BOARD_COMMENT_NOT_FOUND);
         }
 
         boardCommentRepository.deleteById(idx);

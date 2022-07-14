@@ -5,7 +5,7 @@ import kdh.boardproject.dto.board.UpdateBoardDto;
 import kdh.boardproject.entity.Board;
 import kdh.boardproject.entity.Category;
 import kdh.boardproject.entity.User;
-import kdh.boardproject.exception.DuplicateException;
+import kdh.boardproject.exception.CustomException;
 import kdh.boardproject.exception.NotFoundException;
 import kdh.boardproject.repository.BoardRepository;
 import kdh.boardproject.repository.CategoryRepository;
@@ -17,9 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
-import java.util.List;
 import java.util.Optional;
+
+import static kdh.boardproject.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +42,7 @@ public class BoardService {
     public Optional<Board> getBoard(Long idx){
         Optional<Board> board = boardRepository.findOneByIdx(idx);
         if(board.isEmpty()){
-            throw new NotFoundException("존재하지 않는 카테고리입니다.");
+            throw new CustomException(BOARD_NOT_FOUND);
         }
         return board;
     }
@@ -51,12 +51,12 @@ public class BoardService {
     public Board createBoard(CreateBoardDto dto) {
         Optional<Category> category = categoryRepository.findOneByIdx(dto.getCategoryIdx());
         if(category.isEmpty()){
-            throw new NotFoundException("존재하지 않는 카테고리입니다.");
+            throw new CustomException(CATEGORY_NOT_FOUND);
         }
 
         Optional<User> user = userRepository.findOneByIdx(dto.getCreatedUser());
         if(user.isEmpty()){
-            throw new NotFoundException("존재하지 않는 회원입니다.");
+            throw new CustomException(MEMBER_NOT_FOUND);
         }
 
         Board board = Board.builder().
@@ -72,7 +72,7 @@ public class BoardService {
     public Board updateBoard(Long idx, UpdateBoardDto dto) {
         Optional<Board> board = boardRepository.findOneByIdx(idx);
         if(board.isEmpty()){
-            throw new NotFoundException("존재하지 않는 게시물입니다.");
+            throw new CustomException(BOARD_NOT_FOUND);
         }
         board.get().setTitle(dto.getTitle() != null ? dto.getTitle() : board.get().getTitle());
         board.get().setContent(dto.getContent() != null ? dto.getContent() : board.get().getContent());
