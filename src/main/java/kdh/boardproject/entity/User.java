@@ -43,18 +43,18 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "authority_idx", referencedColumnName = "idx")})
     private Set<Authority> authorities;
 
-    @OneToMany(mappedBy = "user")
-    private List<Category> categoryList = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    private List<Category> categoryList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Board> boardList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<BoardComment> boardCommentList = new ArrayList<>();
-
-    public void addCategory(Category category){
-        categoryList.add(category);
-        category.setUser(this);
-    }
+//    @OneToMany(mappedBy = "user")
+//    private List<Board> boardList = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<BoardComment> boardCommentList = new ArrayList<>();
+//
+//    public void addCategory(Category category){
+//        categoryList.add(category);
+//        category.setUser(this);
+//    }
 
 }

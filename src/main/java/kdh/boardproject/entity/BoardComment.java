@@ -1,10 +1,11 @@
 package kdh.boardproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import kdh.boardproject.dto.boardComment.CreateBoardCommentDto;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static javax.persistence.FetchType.LAZY;
@@ -13,10 +14,11 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @Entity
 @Table(name="board_comment")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardComment {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     @Column(name="idx")
     private Long idx;
@@ -24,30 +26,28 @@ public class BoardComment {
     @Column(name="content")
     private String content;
 
-    @Column(name="upper_comment_idx")
-    private Long upper_comment_idx;
-
     @Column(name="createdAt")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name="updatedAt")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "createdUser")
+    @JoinColumn(name = "created_user")
     private User user;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_idx")
     private Board board;
 
-    public void setUser(User user){
+    @Builder
+    public BoardComment(String content, User user, Board board){
+        this.content = content;
         this.user = user;
-        user.getBoardCommentList().add(this);
+        this.board = board;
+        this.createdAt = LocalDateTime.now();
     }
 
-    public void setBoard(Board board){
-        this.board = board;
-        board.getBoardCommentList().add(this);
-    }
 }

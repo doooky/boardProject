@@ -1,12 +1,11 @@
 package kdh.boardproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -14,11 +13,11 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board {
 
     @Id
-    @GeneratedValue
-    @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idx")
     private Long idx;
 
@@ -29,14 +28,14 @@ public class Board {
     private String content;
 
     @Column(name="createdAt")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name="updatedAt")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @JsonIgnore
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "createdUser")
+    @JoinColumn(name = "created_user")
     private User user;
 
     @JsonIgnore
@@ -44,21 +43,13 @@ public class Board {
     @JoinColumn(name = "category_idx")
     private Category category;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<BoardComment> boardCommentList = new ArrayList<>();
-
-    public void setUser(User user){
+    @Builder
+    public Board(String title, String content, User user, Category category){
+        this.title = title;
+        this.content = content;
         this.user = user;
-        user.getBoardList().add(this);
-    }
-
-    public void setCategory(Category category){
         this.category = category;
-        category.getBoardList().add(this);
+        this.createdAt = LocalDateTime.now();
     }
 
-    public void addBoardComment(BoardComment boardComment){
-        boardCommentList.add(boardComment);
-        boardComment.setBoard(this);
-    }
 }

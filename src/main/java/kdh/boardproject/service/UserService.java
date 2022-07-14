@@ -1,7 +1,7 @@
 package kdh.boardproject.service;
 
 import lombok.RequiredArgsConstructor;
-import kdh.boardproject.dto.UserDto;
+import kdh.boardproject.dto.user.UserDto;
 import kdh.boardproject.entity.Authority;
 import kdh.boardproject.entity.User;
 import kdh.boardproject.exception.DuplicateMemberException;

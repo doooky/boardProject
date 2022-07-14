@@ -39,19 +39,6 @@ public class Category {
     @JoinColumn(name = "created_user")
     private User user;
 
-    @OneToMany(mappedBy = "category")
-    private List<Board> boardList = new ArrayList<>();
-
-    public void setUser(User user) {
-        this.user = user;
-        user.getCategoryList().add(this);
-    }
-
-    public void addBoard(Board board){
-        boardList.add(board);
-        board.setCategory(this);
-    }
-
     @Builder
     public Category(String categoryName, String description, User user) {
         this.categoryName = categoryName;
@@ -60,14 +47,9 @@ public class Category {
         this.user = user;
     }
 
-    @Builder
-    public Category(Long idx, String categoryName, String description) {
-        this.idx = idx;
-        this.categoryName = categoryName;
-        this.description = description;
+    public void updatedAt(){
         this.updatedAt = LocalDateTime.now();
     }
-
 
 }
 

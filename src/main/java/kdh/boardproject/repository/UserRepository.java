@@ -10,6 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @EntityGraph(attributePaths = "authorities")
     Optional<User> findOneWithAuthoritiesById(String id);
 
-    User findOneByIdx(Long idx);
+    Optional<User> findOneByIdx(Long idx);
 
 }

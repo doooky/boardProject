@@ -1,8 +1,8 @@
 package kdh.boardproject.controller;
 
 import lombok.RequiredArgsConstructor;
-import kdh.boardproject.dto.LoginDto;
-import kdh.boardproject.dto.TokenDto;
+import kdh.boardproject.dto.user.LoginDto;
+import kdh.boardproject.dto.user.TokenDto;
 import kdh.boardproject.jwt.JwtFilter;
 import kdh.boardproject.jwt.TokenProvider;
 import org.springframework.http.HttpHeaders;

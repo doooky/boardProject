@@ -2,16 +2,14 @@ package kdh.boardproject.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import kdh.boardproject.dto.UserDto;
+import kdh.boardproject.dto.user.UserDto;
 import kdh.boardproject.entity.User;
 import kdh.boardproject.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")

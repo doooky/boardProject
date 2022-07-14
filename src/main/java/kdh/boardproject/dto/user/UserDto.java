@@ -1,4 +1,4 @@
-package kdh.boardproject.dto;
+package kdh.boardproject.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
