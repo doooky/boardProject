@@ -38,14 +38,10 @@ public class BoardCommentService {
 
     public BoardComment createBoardComment(CreateBoardCommentDto dto) {
         Optional<Board> board = boardRepository.findOneByIdx(dto.getBoardIdx());
-        if(board.isEmpty()){
-            throw new CustomException(CATEGORY_NOT_FOUND);
-        }
+        board.orElseThrow(() -> new CustomException(BOARD_NOT_FOUND));
 
         Optional<User> user = userRepository.findOneByIdx(dto.getUserIdx());
-        if(user.isEmpty()){
-            throw new CustomException(MEMBER_NOT_FOUND);
-        }
+        user.orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 
         BoardComment boardComment = BoardComment.builder().
                 content(dto.getContent()).
@@ -58,9 +54,7 @@ public class BoardCommentService {
 
     public BoardComment updateBoardComment(Long idx, UpdateBoardCommentDto dto) {
         Optional<BoardComment> boardComment = boardCommentRepository.findOneByIdx(idx);
-        if(boardComment.isEmpty()){
-            throw new CustomException(BOARD_COMMENT_NOT_FOUND);
-        }
+        boardComment.orElseThrow(() -> new CustomException(BOARD_COMMENT_NOT_FOUND));
 
         boardComment.get().setContent(dto.getContent() != null ? dto.getContent() : boardComment.get().getContent());
         boardCommentRepository.save(boardComment.get());
@@ -69,9 +63,7 @@ public class BoardCommentService {
 
     public BoardComment deleteBoardComment(Long idx) {
         Optional<BoardComment> boardComment = boardCommentRepository.findOneByIdx(idx);
-        if(boardComment.isEmpty()){
-            throw new CustomException(BOARD_COMMENT_NOT_FOUND);
-        }
+        boardComment.orElseThrow(() -> new CustomException(BOARD_COMMENT_NOT_FOUND));
 
         boardCommentRepository.deleteById(idx);
         return boardComment.get();

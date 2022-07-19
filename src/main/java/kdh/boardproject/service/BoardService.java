@@ -41,23 +41,19 @@ public class BoardService {
 
     public Optional<Board> getBoard(Long idx){
         Optional<Board> board = boardRepository.findOneByIdx(idx);
-        if(board.isEmpty()){
-            throw new CustomException(BOARD_NOT_FOUND);
-        }
+        board.orElseThrow(() -> new CustomException(CATEGORY_NOT_FOUND));
         return board;
     }
 
     @Transactional
     public Board createBoard(CreateBoardDto dto) {
         Optional<Category> category = categoryRepository.findOneByIdx(dto.getCategoryIdx());
-        if(category.isEmpty()){
-            throw new CustomException(CATEGORY_NOT_FOUND);
-        }
+        category.orElseThrow(() -> new CustomException(CATEGORY_NOT_FOUND));
+
 
         Optional<User> user = userRepository.findOneByIdx(dto.getCreatedUser());
-        if(user.isEmpty()){
-            throw new CustomException(MEMBER_NOT_FOUND);
-        }
+        user.orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+
 
         Board board = Board.builder().
                 title(dto.getTitle()).
@@ -71,9 +67,8 @@ public class BoardService {
     @Transactional
     public Board updateBoard(Long idx, UpdateBoardDto dto) {
         Optional<Board> board = boardRepository.findOneByIdx(idx);
-        if(board.isEmpty()){
-            throw new CustomException(BOARD_NOT_FOUND);
-        }
+        board.orElseThrow(() -> new CustomException(BOARD_NOT_FOUND));
+
         board.get().setTitle(dto.getTitle() != null ? dto.getTitle() : board.get().getTitle());
         board.get().setContent(dto.getContent() != null ? dto.getContent() : board.get().getContent());
         return boardRepository.save(board.get());
@@ -82,9 +77,8 @@ public class BoardService {
     @Transactional
     public Board deleteBoard(Long idx){
         Optional<Board> board = boardRepository.findOneByIdx(idx);
-        if(board.isEmpty()){
-            throw new NotFoundException("존재하지 않는 게시물입니다.");
-        }
+        board.orElseThrow(() -> new CustomException(BOARD_NOT_FOUND));
+
 
         boardRepository.deleteById(idx);
         return board.get();

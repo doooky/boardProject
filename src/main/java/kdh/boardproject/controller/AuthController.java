@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -37,11 +37,6 @@ public class AuthController {
 
         String jwt = tokenProvider.createToken(authentication);
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        // Bearer은 토큰의 타입을 말한다
-        // Bearer은 JWT 혹은 OAuth에 대한 토큰을 사용하는 타입이다.
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        return ResponseEntity.ok(new TokenDto(jwt));
     }
 }

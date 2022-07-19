@@ -43,9 +43,7 @@ public class CategoryService {
         checkDuplicateCategory(categoryDto.getCategoryName());
 
         Optional<User> user = userRepository.findOneByIdx(categoryDto.getUserIdx());
-        if(user.isEmpty()){
-            throw new CustomException(MEMBER_NOT_FOUND);
-        }
+        user.orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 
         Category category = Category.builder()
                 .categoryName(categoryDto.getCategoryName())
@@ -82,9 +80,8 @@ public class CategoryService {
 
     private Category checkEmptyCategory(Long idx){
         Optional<Category> category = categoryRepository.findOneByIdx(idx);
-        if(category.isEmpty()){
-            throw new CustomException(CATEGORY_NOT_FOUND);
-        }
+        category.orElseThrow(() -> new CustomException(CATEGORY_NOT_FOUND));
+
         return category.get();
     }
 

@@ -10,6 +10,7 @@ import kdh.boardproject.service.BoardCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,8 @@ import java.util.stream.Collectors;
 public class BoardCommentController {
     private final BoardCommentService boardCommentService;
 
-    @GetMapping("list/{id}")
+    @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<List<BoardCommentDto>> getBoardCommentList(
             @PathVariable Long id,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -34,14 +36,16 @@ public class BoardCommentController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("create")
+    @PostMapping("/")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<BoardCommentDto> createBoardComment(@RequestBody CreateBoardCommentDto dto){
         BoardComment boardComment = boardCommentService.createBoardComment(dto);
         BoardCommentDto result = new BoardCommentDto(boardComment);
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<BoardCommentDto> updateBoardComment(@PathVariable Long id, @RequestBody UpdateBoardCommentDto dto){
         BoardComment boardComment = boardCommentService.updateBoardComment(id, dto);
         BoardCommentDto result = new BoardCommentDto(boardComment);
@@ -49,7 +53,8 @@ public class BoardCommentController {
     }
 
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<BoardCommentDto> deleteBoardComment(@PathVariable Long id){
         BoardComment boardComment = boardCommentService.deleteBoardComment(id);
         BoardCommentDto result = new BoardCommentDto(boardComment);

@@ -9,6 +9,7 @@ import kdh.boardproject.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,9 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("list/{categoryIdx}")
-    public List<BoardListDto> getBoardList(
+    @GetMapping("{categoryIdx}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public Page<Board> getBoardList(
             @PathVariable(value = "categoryIdx") Long categoryIdx,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "page", defaultValue = "0") int page){
@@ -30,10 +32,11 @@ public class BoardController {
         List<BoardListDto> result = boardList.stream()
                 .map(o -> new BoardListDto(o))
                 .collect(Collectors.toList());
-        return result;
+        return boardList;
     }
 
-    @GetMapping("list/{categoryIdx}/search")
+    @GetMapping("{categoryIdx}/search")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<BoardListDto> getBoardListByTitle(
             @PathVariable(value = "categoryIdx") Long categoryIdx,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -47,24 +50,28 @@ public class BoardController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<BoardDto> getBoard(@PathVariable(value = "id") Long id){
         BoardDto result = new BoardDto(boardService.getBoard(id).get());
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("create")
+    @PostMapping("/")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<BoardDto> createBoard(@RequestBody CreateBoardDto dto){
         BoardDto result = new BoardDto(boardService.createBoard(dto));
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<BoardDto> updateBoard(@PathVariable(value = "id")  Long id, @RequestBody UpdateBoardDto dto){
         BoardDto result = new BoardDto(boardService.updateBoard(id, dto));
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<BoardDto> deleteBoard(@PathVariable Long id){
         BoardDto result = new BoardDto(boardService.deleteBoard(id));
         return ResponseEntity.ok(result);

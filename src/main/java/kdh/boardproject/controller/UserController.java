@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -24,13 +24,13 @@ public class UserController {
         return ResponseEntity.ok(userService.signup(userDto));
     }
 
-    @GetMapping("/user")
+    @GetMapping("/")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<User> getMyUserInfo() {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities().get());
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<User> getUserInfo(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserWithAuthorities(username).get());
