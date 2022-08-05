@@ -3,17 +3,16 @@ package kdh.boardproject.dto.board
 import kdh.boardproject.dto.category.CategoryListDto
 import kdh.boardproject.dto.user.UserRequestDto
 import kdh.boardproject.entity.Board
-import lombok.Data
 import java.time.LocalDateTime
 
-@Data
+
 class BoardDto(board: Board) {
-    private val idx: Long
-    private val title: String
-    private val content: String
-    private val createdAt: LocalDateTime
-    private val user: UserRequestDto
-    private val category: CategoryListDto
+     val idx: Long?
+     val title: String
+     val content: String
+     val createdAt: LocalDateTime?
+     val user: UserRequestDto
+     val category: CategoryListDto
 
     init {
         idx = board.idx

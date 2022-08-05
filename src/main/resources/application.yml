@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: ENC(VER/Nq7bzt4U767+uSAaBxViSdgPB4LgFw0itS3P/5cvbzRH43AEY9WeS0SaeXIwdrtehST0MS+opMck+HAtCdd3au9XASGOC63ArVNHq+B3yxOdYIOxMojlQI5XjxpjEzKelnBqpygRuYE71QNOhw==)
+    url: ENC(GlVPOS2yj27G8KlmPkm1bIcNh+lTPcZaB58VmhfoTgUvxvbxN4ry0WdbWnUVA3z8C5lmgMpQ4u29Qkm7knvh//gTjP44A6gWyJRk2FsPCywRjpjkme/K7pIshCMpecdyORIn9Q9DSRGVZi1LodfGV4vqONmzVSM89ohu1n6iJ01tbq8hO1Eqq/KuVwS5b4nLXzQ/dG6nctHIaa8IO3SIEQ==)
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ENC(h1GnL83oDBt4N+/tYDbOwg==)
-    password: ENC(UntvDISjC8RO7upb8UJve3RGV94biTa2)
+    username: ENC(ekx8uDXPHHxhywkRW7tkMw==)
+    password: ENC(aYt0+Ypk//L/ka7aefbRtGI87NUdjXYs)
 
   jpa:
     database: mysql
@@ -25,9 +25,10 @@ logging:
     kdh: DEBUG
 
 jwt:
-  header: Authorization
+  header: Authorization #header : JWT를 검증하는데 필요한 정보
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
   token-validity-in-seconds: 86400
+  #token-validity-in-seconds : 토큰의 만료시간을 지정함
 
 jasypt:
   encryptor:

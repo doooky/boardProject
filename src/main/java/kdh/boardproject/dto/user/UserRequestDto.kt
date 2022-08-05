@@ -5,12 +5,12 @@ import lombok.Data
 
 @Data
 class UserRequestDto(user: User) {
-    private val idx: Long
-    private val id: String
-    private val name: String
+     var idx: Long
+     var id: String
+     var name: String
 
     init {
-        idx = user.idx
+        idx = user.idx!!
         id = user.id
         name = user.name
     }

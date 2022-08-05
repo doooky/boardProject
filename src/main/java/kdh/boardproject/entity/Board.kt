@@ -5,24 +5,37 @@ import lombok.*
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Getter
-@Setter
+
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "board")
-class Board @Builder constructor(@field:Column(name = "title") private val title: String, @field:Column(name = "content") private val content: String, @field:JoinColumn(name = "created_user") @field:ManyToOne(fetch = FetchType.LAZY) @field:JsonIgnore private val user: User, @field:JoinColumn(name = "category_idx") @field:ManyToOne(fetch = FetchType.LAZY) @field:JsonIgnore private val category: Category) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idx")
-    private val idx: Long? = null
+@Table(name="board")
+//field -> 밸리데이션 ㅊ체크 할때는 다해야함.
+//AllArgsConstructor - 생성자 다 생성해줘야함
 
-    @Column(name = "createdAt")
-    private val createdAt: LocalDateTime
+class Board (
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)//baseEntity를 만들어서 상속받아 쓰게 하면 좋음 . 맵드 어쩌구
+        var idx: Long? = null,
+//    , //nullable로 지정했지만 실제로 null 이 들어가지 않는다.
 
-    @Column(name = "updatedAt")
-    private val updatedAt: LocalDateTime? = null
+        @Column(name="title")
+        var title : String,
 
-    init {
-        createdAt = LocalDateTime.now()
-    }
-}
+        @Column(name="content")
+        var content : String,
+
+        @Column(name="createdAt")
+        var createdAt : LocalDateTime? = LocalDateTime.now(),
+
+        @Column(name="updatedAt")
+        var updatedAt : LocalDateTime? = null,
+
+        @JsonIgnore
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "created_user")
+        var user : User,
+
+        @JsonIgnore
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "category_idx")
+        var category: Category
+)

@@ -12,23 +12,23 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
-class UserController {
-    private val userService: UserService? = null
+class UserController (private var userService: UserService){
+
     @PostMapping("/signup")
     fun signup(
             @RequestBody userDto: @Valid UserDto?
     ): ResponseEntity<User> {
-        return ResponseEntity.ok(userService!!.signup(userDto!!))
+        return ResponseEntity.ok(userService.signup(userDto!!))
     }
 
     @get:PreAuthorize("hasAnyRole('USER','ADMIN')")
     @get:GetMapping("/")
     val myUserInfo: ResponseEntity<User>
-        get() = ResponseEntity.ok(userService!!.myUserWithAuthorities.get())
+        get() = ResponseEntity.ok(userService.getMyUserWithAuthorities()!!)
 
     @GetMapping("{username}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    fun getUserInfo(@PathVariable username: String?): ResponseEntity<User> {
-        return ResponseEntity.ok(userService!!.getUserWithAuthorities(username)!!.get())
+    fun getUserInfo(@PathVariable username: String): ResponseEntity<User> {
+        return ResponseEntity.ok(userService.getUserWithAuthorities(username)!!)
     }
 }

@@ -7,10 +7,10 @@ import lombok.Data
 
 @Data
 class BoardCommentDto(boardComment: BoardComment) {
-    private val idx: Long
-    private val content: String
-    private val user: UserRequestDto
-    private val board: BoardListDto
+     val idx: Long?
+     val content: String
+     val user: UserRequestDto
+     val board: BoardListDto
 
     init {
         idx = boardComment.idx

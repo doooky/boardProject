@@ -6,10 +6,10 @@ import java.time.LocalDateTime
 
 @Data
 class CategoryListDto(category: Category) {
-    private val categoryIdx: Long
-    private val categoryName: String
-    private val description: String
-    private val createdAt: LocalDateTime
+    var categoryIdx: Long?
+    var categoryName: String
+    var description: String
+    var createdAt: LocalDateTime?
 
     init {
         categoryIdx = category.idx

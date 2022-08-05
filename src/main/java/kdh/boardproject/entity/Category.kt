@@ -6,30 +6,38 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-class Category @Builder constructor(@field:Column(name = "name") private val categoryName: String, @field:Column(name = "description") private val description: String, user: User) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idx")
-    private val idx: Long? = null
+@Table(name="category")
+class Category (
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "idx")
+        var idx: Long? = null,
 
-    @Column(name = "created_at")
-    private val createdAt: LocalDateTime
+        @Column(name = "name")
+        var categoryName: String,
 
-    @Column(name = "updated_at")
-    private var updatedAt: LocalDateTime? = null
+        @Column(name = "description")
+        var description: String,
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_user")
-    private val user: User
+        @Column(name = "created_at")
+        var createdAt: LocalDateTime? = null,
+
+        @Column(name = "updated_at")
+        var updatedAt: LocalDateTime? = null,
+
+        @JsonIgnore
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "created_user")
+        var user: User
+) {
+
+
+
 
     init {
         createdAt = LocalDateTime.now()
         this.user = user
-    }
+    }// init을 사용할 떄 초기화 할때 특별한 작업이 있을시,
 
     fun updatedAt() {
         updatedAt = LocalDateTime.now()

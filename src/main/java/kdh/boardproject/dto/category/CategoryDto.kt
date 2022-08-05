@@ -6,10 +6,10 @@ import lombok.Data
 
 @Data
 class CategoryDto(category: Category) {
-    private val categoryIdx: Long
-    private val categoryName: String
-    private val description: String
-    private val user: UserRequestDto
+    var categoryIdx: Long?
+    var categoryName: String
+    var description: String
+    var user: UserRequestDto
 
     init {
         categoryIdx = category.idx

@@ -7,23 +7,30 @@ import java.time.LocalDateTime
 
 @Getter
 @Builder
-class ErrorResponse {
-    private val timestamp = LocalDateTime.now()
-    private val status = 0
-    private val error: String? = null
-    private val code: String? = null
-    private val message: String? = null
+class ErrorResponse(var error: String?, var status: Int?, var code: String?, var message: String?) {
+     var timestamp = LocalDateTime.now()
+//    private var status = 0
+//    private var error: String? = null
+//    private var code: String? = null
+//    private var message: String? = null
 
     companion object {
         fun toResponseEntity(errorCode: ErrorCode): ResponseEntity<ErrorResponse> {
             return ResponseEntity
-                    .status(errorCode.httpStatus)
-                    .body(ErrorResponse.builder()
-                            .status(errorCode.httpStatus.value())
-                            .error(errorCode.httpStatus.name)
-                            .code(errorCode.name)
-                            .message(errorCode.detail)
-                            .build()
+                    .status(errorCode.httpStatus!!)
+                    .body(
+                            /* body = */ ErrorResponse(
+                                    status = errorCode.httpStatus!!.value(),
+                                    error = errorCode.httpStatus!!.name,
+                                    code = errorCode.name,
+                                    message = errorCode.detail
+                            )
+//                            ErrorResponse.builder()
+//                            .status(errorCode.httpStatus.value())
+//                            .error(errorCode.httpStatus.name)
+//                            .code(errorCode.name)
+//                            .message(errorCode.detail)
+//                            .build()
                     )
         }
     }

@@ -3,8 +3,6 @@ package kdh.boardproject.exception
 import lombok.AllArgsConstructor
 import lombok.Getter
 
-@Getter
-@AllArgsConstructor
-class CustomException : RuntimeException() {
-    private val errorCode: ErrorCode? = null
+class CustomException(errorCode: ErrorCode) : RuntimeException(){
+     val errorCode : ErrorCode = errorCode
 }
